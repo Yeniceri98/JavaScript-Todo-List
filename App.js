@@ -2,13 +2,13 @@
 const todoInput = document.querySelector(".todo-input");
 const todoButton = document.querySelector(".todo-button");
 const todoList = document.querySelector(".todo-list");
+const filterOption = document.querySelector(".filter-todo");
 
 
-
-// Event Listener
+// Event Listeners
 todoButton.addEventListener("click", addTodo);
 todoList.addEventListener("click", deleteCheck);
-
+filterOption.addEventListener("click", filterTodo);
 
 
 // Functions
@@ -45,7 +45,7 @@ function addTodo(event) {
     todoList.appendChild(todoDiv);     // todoDiv'in parent elementi todoList ve burada eklemeyi yaptık. Burası olmazsa ekleme yapınca ekranda gözükmez
 
     // Clear Todo Input Value
-    todoInput.value =  "";       // textbox'a bir şey yazıp ekleme butonuna bastıktan sonra textbox'ı sıfırlayacak
+    todoInput.value =  "";       // Textbox'a bir şey yazıp ekleme butonuna bastıktan sonra textbox'ı sıfırlayacak
 }
 
 function deleteCheck(e) {
@@ -55,8 +55,11 @@ function deleteCheck(e) {
     // Delete Todo
     if (item.classList[0] === "delete-btn") {
         const todo = item.parentElement;
-        todo.classList.add("fall");   // animasyon için CSS kısmında ayarlama yapılacak
-        todo.remove();
+        todo.classList.add("fall");   // Animasyon için CSS kısmında ayarlama yapılacak
+        //todo.remove();     // fall animasyonuyla sileceğimiz için bu kısmı kaldırdık. Böylece direkt silinmemiş olacak belli bir animasyon hareketiyle silinecek
+        todo.addEventListener("transitionend", function() {
+            todo.remove();     // Animasyon hareketi bittikten sonra silecek
+        })
     }
 
     // Check Todo
@@ -65,3 +68,28 @@ function deleteCheck(e) {
         todo.classList.toggle("completed");
     }
 }
+
+function filterTodo(e) {
+    const todos = todoList.childNodes;
+    todos.forEach(function(todo) {
+        switch (e.target.value) {
+            case "all":
+                todo.style.display = "flex";
+                break;
+            case "completed":
+                if (todo.classList.contains("completed")) {
+                    todo.style.display = "flex";
+                } else {
+                    todo.style.display = "none";
+                }
+                break;
+            case "uncompleted":
+                if (!todo.classList.contains("completed")) {
+                    todo.style.display = "flex";
+                } else {
+                    todo.style.display = "none";
+                }
+        }
+    })
+}
+
