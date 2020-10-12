@@ -1,4 +1,4 @@
-Click and see the project -> [JavaScript Todo List]https://determined-villani-d8fda4.netlify.app/).
+Click and see the project -> [JavaScript Todo List](https://determined-villani-d8fda4.netlify.app/).
 
 ## Available Scripts
 
